@@ -44,18 +44,17 @@ export class HomeComponent implements OnInit {
 
   addItem() {
     this._data.changeGoal(this.goals);
-    this.itemCount = this.goals.length;
     this.goals.push(this.goalText);
+    this.itemCount = this.goals.length;
     this.goalText = '';
-    
-    
+      
   }
 
   removeItem(i) {
     this._data.changeGoal(this.goals);
     this.itemCount = this.goals.length;
     this.goals.splice(i, 1);
-    
+    this.itemCount = this.goals.length;
   }
 
 }
