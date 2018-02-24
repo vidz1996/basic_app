@@ -20,7 +20,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /***/ "./src/app/about/about.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  This is what I'm all about.  <a href=\"\" (click)=\"sendMeHome()\"><strong>Take me back</strong></a>.\n</p>\n<ul>\n  <li *ngFor = \"let goal of goals\">\n    {{ goal }}\n  </li>\n</ul>\n"
+module.exports = "<p>\n  This is what I'm all about.<a href=\"\" (click)=\"sendMeHome()\"><strong>Take me back</strong></a>\n</p>\n\n<ul>\n  <li *ngFor = \"let goal of goals\">{{ goal }}</li>\n</ul>"
 
 /***/ }),
 
@@ -129,7 +129,7 @@ var AppRoutingModule = /** @class */ (function () {
 /***/ "./src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<ul>\n  <li><a routerLink=\"\">Home</a></li>\n  <li><a routerLink=\"about/48\">About</a></li>\n</ul>\n\n<router-outlet></router-outlet>\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\n<ul>\n  <li><a routerLink=\"\">Home</a></li>\n  <li><a routerLink=\"about/5\">About</a></li>\n</ul>\n\n\n\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
@@ -267,14 +267,14 @@ var DataService = /** @class */ (function () {
 /***/ "./src/app/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container color-dark\">\n  <div class=\"col\">\n    <p>Add a bucket list item</p>\n  </div>\n  <div class=\"col\">\n    <p>Your bucket list  ({{ itemCount }})</p>\n  </div>\n</div>\n<div class=\"container color-light\" [@goals]=\"goals.length\">\n  <div class=\"col\">\n    <p class=\"sm\">Use this form below to add a new bucket list goal. What do you want to do with your life?</p>\n    <form>\n      <input type=\"text\" class=\"txt\" name=\"item\" placeholder=\"Life goal..\" [(ngModel)]=\"goalText\">\n      <input type=\"submit\" class=\"btn\" [value]=\"btnText\" (click)=\"addItem()\">\n    </form>\n  </div>\n  <div class=\"col\">\n    <p class=\"life-container\" *ngFor=\"let goal of goals; let i = index\" (click)=\"removeItem(i)\">\n      {{ goal }}    \n    </p>\n  </div>\n</div>"
+module.exports = "<div class=\"container color-dark\">\n    <div class=\"col\">\n        <p>Add Bucket List Item</p>\n    </div>\n    <div class=\"col\">\n      <p>Your Bucket List ({{ itemCount }})</p>\n  </div>\n  </div>\n  <div class=\"container color-light\" [@goals]=\"goals.length\">\n    <div class=\"col\">\n        <p class=\"sm\">Use Bottom Form To Add New Goal.</p>\n  \n        <form action=\"\">\n          <input type=\"text\" class=\"txt\" name=\"item\" placeholder=\"Life Goal..\" [(ngModel)]=\"goalText\">\n          <input type=\"submit\" class=\"btn\" [value]=\"btnText\" (click)=\"addItem()\">\n        </form>\n    </div>\n    <div class=\"col\">\n      <p class=\"life-container\" *ngFor = \"let goal of goals; let i = index\" (click)=\"removeItem(i)\">\n        {{ goal }}\n      </p>\n    </div>\n</div>"
 
 /***/ }),
 
 /***/ "./src/app/home/home.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".container {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 50% auto;\n      grid-template-columns: 50% auto; }\n\n.col {\n  padding: .4em 1.3em; }\n\n.color-dark {\n  background: #2885C4; }\n\n.color-light {\n  background: #57B3F1; }\n\ninput.txt {\n  border: 0;\n  padding: 1em;\n  width: 80%;\n  margin-bottom: 2em; }\n\ninput.btn {\n  border: 0;\n  display: block;\n  padding: 1em 3em;\n  background: #A5F883;\n  color: #003A61;\n  margin-bottom: 1em;\n  cursor: pointer; }\n\n.life-container {\n  background: #3FA0E1;\n  padding: 6px;\n  font-weight: 300;\n  cursor: pointer; }\n"
+module.exports = ".container {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 50% auto;\n      grid-template-columns: 50% auto; }\n\n.col {\n  padding: .4em 1.3em; }\n\n.color-dark {\n  background: #2885c4; }\n\n.color-light {\n  background: #57b3f1; }\n\ninput.txt {\n  border: 0;\n  padding: 1em;\n  width: 80%;\n  margin-bottom: 2em; }\n\ninput.btn {\n  display: block;\n  border: 0;\n  padding: 1em 3em;\n  background: #a5f883;\n  color: #003a61;\n  margin-bottom: 1em;\n  cursor: pointer; }\n\n.life-container {\n  background: #3fa0e1;\n  padding: .5em;\n  font-weight: bold;\n  cursor: pointer; }\n"
 
 /***/ }),
 
@@ -301,10 +301,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var HomeComponent = /** @class */ (function () {
     function HomeComponent(_data) {
         this._data = _data;
-        this.itemCount = 4;
-        this.btnText = 'Add an item';
+        this.btnText = 'Add item';
         this.goalText = 'My first life goal';
-        this.goals = [''];
+        this.goals = [];
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -313,15 +312,16 @@ var HomeComponent = /** @class */ (function () {
         this._data.changeGoal(this.goals);
     };
     HomeComponent.prototype.addItem = function () {
-        this.goals.push(this.goalText);
-        this.goalText = '';
-        this.itemCount = this.goals.length;
         this._data.changeGoal(this.goals);
+        this.goals.push(this.goalText);
+        this.itemCount = this.goals.length;
+        this.goalText = '';
     };
     HomeComponent.prototype.removeItem = function (i) {
+        this._data.changeGoal(this.goals);
+        this.itemCount = this.goals.length;
         this.goals.splice(i, 1);
         this.itemCount = this.goals.length;
-        this._data.changeGoal(this.goals);
     };
     HomeComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -335,14 +335,14 @@ var HomeComponent = /** @class */ (function () {
                         Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* query */])(':enter', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* stagger */])('300ms', [
                             Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('.6s ease-in', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["f" /* keyframes */])([
                                 Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: 0, transform: 'translateY(-75%)', offset: 0 }),
-                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: .5, transform: 'translateY(35px)', offset: .3 }),
-                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: 1, transform: 'translateY(0)', offset: 1 }),
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: .5, transform: 'translateY(35px)', offset: 0.3 }),
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: 1, transform: 'translateY(0)', offset: 1.0 }),
                             ]))
                         ]), { optional: true }),
                         Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["g" /* query */])(':leave', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* stagger */])('300ms', [
                             Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('.6s ease-in', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["f" /* keyframes */])([
                                 Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: 1, transform: 'translateY(0)', offset: 0 }),
-                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: .5, transform: 'translateY(35px)', offset: .3 }),
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: .5, transform: 'translateY(35px)', offset: 0.3 }),
                                 Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* style */])({ opacity: 0, transform: 'translateY(-75%)', offset: 1 }),
                             ]))
                         ]), { optional: true })
